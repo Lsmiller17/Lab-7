@@ -1,16 +1,16 @@
+import os
 import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
 
-# Load trained model
-model = joblib.load('house_price_model.pkl')
-
-# Prediction function
-def predict_price(input_data):
-    df = pd.DataFrame([input_data])
-    prediction = model.predict(df)
-    return prediction[0]
+# Check if model file exists before loading
+model_path = "house_price_model.pkl"
+if os.path.exists(model_path):
+    model = joblib.load(model_path)
+else:
+    st.error("⚠️ Model file not found! Please upload 'house_price_model.pkl' to the correct directory.")
+    st.stop()
 
 # Streamlit UI
 st.title('Ames Housing Price Predictor')
